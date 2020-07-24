@@ -646,22 +646,22 @@ export default {
       }
     }
     .prd .bg-color{
-      background-color: #d4f1f3;
+      background-color: #09c3d0;
     }
     .meeting .bg-color{
-      background-color: #ddeefd;
+      background-color: #0987f7;
     }
     .ui .bg-color{
-      background-color: #e8f3d3;
+      background-color: #8ec720;
     }
     .dev .bg-color{
-      background-color: #f4efd6;
+      background-color: #dcba12;
     }
     .test .bg-color{
-      background-color: #f8e2e2;
+      background-color: #f56d6d;
     }
     .product .bg-color{
-      background-color: #eee2e2;
+      background-color: #1fa740;
     }
     .bg-color {
       opacity: 0.6;
