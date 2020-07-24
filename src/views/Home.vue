@@ -18,7 +18,7 @@
           <div class="flex-th flex-item-4">
             <div class="flex richeng-days">
               <div
-                class="flex-item-type"
+                class="flex-item-type pos-rel"
                 :class="item.type"
                 v-for="(item, key) in listHead"
                 :key="key"
@@ -26,6 +26,7 @@
                 @mouseenter="enterType(item)"
                 @mouseleave="leaveType(item)"
               >
+                <div class="pos-abs bg-color"></div>
                 <span class="flex-item-day">{{ item.name }}</span>
               </div>
             </div>
@@ -56,8 +57,10 @@
                         v-for="(el, keys2) in date.type"
                         :key="keys2"
                         :class="el.type"
-                        class="flex-item-type-item"
-                      ></div>
+                        class="flex-item-type-item pos-rel"
+                      >
+                        <div class="pos-abs bg-color"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -279,10 +282,6 @@ export default {
       ];
       list.forEach((ele) => {
         ele.days = []
-        // ele.items.forEach((el) => {
-        //   el.check = false;
-        //   el.hover = false;
-        // });
       });
       this.list = list;
       this.createTime();
@@ -646,23 +645,33 @@ export default {
         flex: 1;
       }
     }
-    .prd {
+    .prd .bg-color{
       background-color: #d4f1f3;
     }
-    .meeting {
+    .meeting .bg-color{
       background-color: #ddeefd;
     }
-    .ui {
+    .ui .bg-color{
       background-color: #e8f3d3;
     }
-    .dev {
+    .dev .bg-color{
       background-color: #f4efd6;
     }
-    .test {
+    .test .bg-color{
       background-color: #f8e2e2;
     }
-    .product {
+    .product .bg-color{
       background-color: #eee2e2;
+    }
+    .bg-color {
+      opacity: 0.6;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      &:hover{
+        opacity: 1;
+      }
     }
     .flex-item-4 {
       width: 100%;
@@ -679,7 +688,7 @@ export default {
           .flex-item-type-box {
             background: rgba($color: #000000, $alpha: 0.2);
           }
-          .flex-item-type-item {
+          .bg-color {
             background: rgba($color: #000000, $alpha: 0);
           }
         }
@@ -707,6 +716,7 @@ export default {
         line-height: 1;
         margin-top: 15px;
         display: block;
+        pointer-events: none;
       }
       .weekday {
         color: #b04343;
