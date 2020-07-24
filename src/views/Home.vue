@@ -162,11 +162,11 @@ export default {
       ];
       let list = [
         {
-          name: "test",
+          name: "巴南项目",
           // id: 1,
           time: "2020-06-21 00:00:00",
           createtime: "2020-06-21 00:00:00",
-          owner: "admin",
+          owner: "何志",
           status: 1,
           items: [
             {
@@ -220,10 +220,10 @@ export default {
           ],
         },
         {
-          name: "test2",
+          name: "经开项目",
           time: "2020-06-22 00:00:00",
           createtime: "2020-06-22 00:00:00",
-          owner: "admin2",
+          owner: "余林徽",
           status: 1,
           items: [
             {
