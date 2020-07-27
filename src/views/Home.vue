@@ -3,14 +3,31 @@
     <div class="richeng-box flex">
       <div class="richeng-tbody">
         <div class="flex richeng-flex">
-          <div class="flex-th flex-item-1">名称</div>
+          <div class="flex-th flex-item-1 pos-rel">
+            <span>名称</span>
+            <span class="flex-item-add pos-abs" @click="addWork()">
+              <a-icon type="plus" />
+            </span>
+          </div>
           <div class="flex-th flex-item-2">创建人</div>
-          <div class="flex-th flex-item-3">状态</div>
+          <div class="flex-th flex-item-3">
+            <span>状态</span>
+          </div>
         </div>
         <div class="flex richeng-flex" v-for="(item, key) in list" :key="key">
-          <div class="flex-td flex-item-1 text-overflow">{{ item.name }}</div>
+          <div class="flex-td flex-item-1 text-overflow pos-rel">
+            <span>{{ item.name }}</span>
+            <span class="flex-item-edit pos-abs" @click="editWork(item, 2)">
+              <a-icon type="edit" />
+            </span>
+            <span class="flex-item-add pos-abs" @click="addWork(item)">
+              <a-icon type="plus" />
+            </span>
+          </div>
           <div class="flex-td flex-item-2 text-overflow">{{ item.owner }}</div>
-          <div class="flex-td flex-item-3 text-overflow">{{ getStatus(item.status) }}</div>
+          <div class="flex-td flex-item-3 text-overflow">
+            <span>{{ getStatus(item.status) }}</span>
+          </div>
         </div>
       </div>
       <div class="richeng-tbody richeng-tbody-2">
@@ -22,7 +39,6 @@
                 :class="item.type"
                 v-for="(item, key) in listHead"
                 :key="key"
-                @click="checkType(item)"
                 @mouseenter="enterType(item)"
                 @mouseleave="leaveType(item)"
               >
@@ -35,17 +51,13 @@
         <div class="richeng-flex-2">
           <div class="pos-rel" :style="itemStyle">
             <div class="flex" v-for="(item, key) in list" :key="key">
-              <div class="flex-td flex-item-4 pos-rel">
+              <div class="flex-td flex-item-4 pos-rel" :class="getHoverDay(showHoverDay, item)">
                 <div class="flex richeng-days">
                   <div
                     class="flex-item-days pos-rel"
                     :class="getWeekdayClass(date)"
                     v-for="(date, keys) in item.days"
                     :key="keys"
-                    @click="checkDay(item, date, keys, key)"
-                    @mouseenter="enterDay(item, date, keys, key)"
-                    @mouseleave="leaveDay(item, date, keys, key)"
-                    @dblclick="editDay(item, date, keys, key)"
                   >
                     <div class="pos-abs flex-item-days-box">
                       <span class="pos-abs flex-item-month">{{ getMonthTxt(date.month) }}</span>
@@ -58,80 +70,65 @@
                         :key="keys2"
                         :class="el.type"
                         class="flex-item-type-item pos-rel"
+                        @mouseenter="enterDay(el, item)"
+                        @mouseleave="leaveDay"
                       >
-                        <div class="pos-abs bg-color"></div>
+                        <div :class="{hover: showHover === el.item.type}" class="pos-abs bg-color" @click="editWork(item, 1, el.item)"></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="pos-abs check-box" :class="{active: drawBox.show}" :style="checkBoxStyle">
-              <div class="check-box-left pos-abs" @mousedown="drawDown($event, 'left')"></div>
-              <div class="check-box-right pos-abs" @mousedown="drawDown($event, 'right')"></div>
-            </div>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="draw-mask"
-      @mousemove="drawMove($event)"
-      @mouseup="drawUp($event)"
-      v-show="drawBox.show"
-    ></div>
+    <a-modal
+      :title="modalTitle"
+      :visible="visible"
+      @cancel="handleCancel"
+      :footer="null"
+    >
+      <component v-bind:is="modal" :parent="parent" :work="work" :item="item"></component>
+    </a-modal>
+    
   </div>
 </template>
 
 <script>
+import AddWorkVue from '@/components/calendar/AddWork.vue';
+import EditWorkVue from '@/components/calendar/EditWork.vue';
+import AddItemVue from '@/components/calendar/AddItem.vue';
+import EditItemVue from '@/components/calendar/EditItem.vue';
+
 export default {
   name: "Home",
   components: {},
   data() {
     return {
+      visible: false,
+      modal: null,
+      modalTitle: '',
+      work: null,
+      item: null,
+      parent: null,
       list: [],
       days: [],
       listHead: [],
-      stime: null,
-      selectBox: {
-        start: null,
-        end: null,
-        state: false,
-        item: null,
-      },
-      drawBox: {
-        show: false,
-        x: 0,
-        type: "",
-        left: 0,
-        width: 0,
-      },
-      checkBox: {
-        left: 0,
-        width: 0,
-        top: 0,
-        show: false,
-        item: null,
-        index: 0,
-      },
+      showHover: '',
+      showHoverItem: null,
+      showHoverDay: ''
     };
   },
   created() {
-    window.vl = this;
+    this.parent = this
     this.initList();
   },
   computed: {
     itemStyle() {
       return {
         width: this.days.length * 80 + "px",
-      };
-    },
-    checkBoxStyle() {
-      return {
-        left: this.checkBox.left + "px",
-        width: this.checkBox.width + "px",
-        top: this.checkBox.top + "px",
-        display: this.checkBox.show ? "block" : "none",
       };
     },
   },
@@ -169,6 +166,7 @@ export default {
           // id: 1,
           time: "2020-06-21 00:00:00",
           createtime: "2020-06-21 00:00:00",
+          content: '这是项目详情介绍',
           owner: "何志",
           status: 1,
           items: [
@@ -178,6 +176,8 @@ export default {
               day: 2,
               owner: "何志",
               time: "2020-06-21 00:00:00",
+              etime: "2020-06-22 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -186,6 +186,8 @@ export default {
               day: 1,
               owner: "何志",
               time: "2020-06-22 00:00:00",
+              etime: "2020-06-22 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -194,6 +196,8 @@ export default {
               day: 2,
               owner: "王婉儿",
               time: "2020-06-23 00:00:00",
+              etime: "2020-06-24 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -202,6 +206,8 @@ export default {
               day: 2,
               owner: "潘涛",
               time: "2020-06-25 00:00:00",
+              etime: "2020-06-26 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -210,6 +216,8 @@ export default {
               day: 2,
               owner: "文静",
               time: "2020-06-27 00:00:00",
+              etime: "2020-06-28 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -218,6 +226,8 @@ export default {
               day: 1,
               owner: "何志",
               time: "2020-06-28 00:00:00",
+              etime: "2020-06-28 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
           ],
@@ -226,6 +236,7 @@ export default {
           name: "经开项目",
           time: "2020-06-22 00:00:00",
           createtime: "2020-06-22 00:00:00",
+          content: '这是项目详情介绍',
           owner: "余林徽",
           status: 1,
           items: [
@@ -235,6 +246,8 @@ export default {
               day: 2,
               owner: "何志",
               time: "2020-06-22 00:00:00",
+              etime: "2020-06-23 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -243,6 +256,8 @@ export default {
               day: 1,
               owner: "何志",
               time: "2020-06-23 00:00:00",
+              etime: "2020-06-23 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -251,6 +266,8 @@ export default {
               day: 2,
               owner: "王婉儿",
               time: "2020-06-24 00:00:00",
+              etime: "2020-06-25 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -259,6 +276,8 @@ export default {
               day: 2,
               owner: "潘涛",
               time: "2020-06-26 00:00:00",
+              etime: "2020-06-27 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -267,6 +286,8 @@ export default {
               day: 2,
               owner: "文静",
               time: "2020-06-28 00:00:00",
+              etime: "2020-06-29 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
             {
@@ -275,45 +296,17 @@ export default {
               day: 1,
               owner: "何志",
               time: "2020-06-29 00:00:00",
+              etime: "2020-06-29 00:00:00",
+              content: '这是详情介绍',
               edit: [],
             },
           ],
         },
       ];
       list.forEach((ele) => {
-        ele.days = []
+        ele.days = [];
       });
       this.list = list;
-      this.createTime();
-    },
-    resetList(dx, type) {
-      if (!dx) {
-        return false;
-      }
-      let item = this.checkBox.item;
-      let index = this.checkBox.index;
-      let items = item.items[index];
-      let day = Math.abs(dx / 80);
-      if (dx < 0 && index === 0) {
-        return false;
-      }
-      if (type === "left") {
-        if (dx < 0) {
-          // 左移
-          // items.day += day;
-          // item.day += day;
-          // let time = new Date(item.time).getTime()
-          // item.time = this.formatDate(new Date(time + day * 24 * 3600 * 1000))
-        } else {
-          // 右移
-        }
-      } else {
-        if (dx < 0) {
-          // 左移
-        } else {
-          // 右移
-        }
-      }
       this.createTime();
     },
     createTime() {
@@ -336,7 +329,6 @@ export default {
       // 前后各加十天
       // stime = new Date(stime.getTime() - 10 * 24 * 3600 * 1000);
       etime = new Date(etime.getTime() + 10 * 24 * 3600 * 1000);
-      this.stime = stime;
       let t1 = stime.getTime();
       let t0 = ntime.getTime();
       let t2 = etime.getTime();
@@ -357,7 +349,7 @@ export default {
         dayIndex++;
       }
       this.list.forEach((ele) => {
-        ele.days = JSON.parse(JSON.stringify(days))
+        ele.days = JSON.parse(JSON.stringify(days));
         ele.items.forEach((el) => {
           let len = el.day;
           for (let i = 0; i < len; i++) {
@@ -367,13 +359,14 @@ export default {
             let year = date.getFullYear();
             let month = date.getMonth();
             let day = date.getDate();
-            let item = ele.days.find(el => {
-              return el.year === year && el.month === month && el.day === day
-            })
+            let item = ele.days.find((el) => {
+              return el.year === year && el.month === month && el.day === day;
+            });
             item.type.push({
               type: el.type,
               index: i,
               len: len,
+              item: el
             });
           }
         });
@@ -440,130 +433,57 @@ export default {
       let arr = ["日", "一", "二", "三", "四", "五", "六"];
       return txt + arr[weekday];
     },
-    //获得左侧时间间隔
-    getLeftDay(times) {
-      let time = new Date(times.time);
-      let stime = this.stime;
-      let temp = time.getTime() - stime.getTime();
-      let day = Math.ceil(temp / 24 / 3600 / 1000);
-      return day;
-    },
-    getItems(item, date, keys) {
-      let time = new Date(item.time);
-      let stime = this.stime;
-      let temp = time.getTime() - stime.getTime();
-      let day = Math.ceil(temp / 24 / 3600 / 1000);
-      let items = null;
-      if (day <= keys) {
-        for (let i = 0; i < item.items.length; i++) {
-          let ele = item.items[i];
-          day += ele.day;
-          if (day > keys) {
-            items = ele;
-            break;
-          }
-        }
+    getHoverDay(showHoverDay, item){
+      if(item === this.showHoverItem){
+        return showHoverDay
       }
-      return items;
+      return ''
     },
-    editDay(item, date, keys, key) {
-      let items = this.getItems(item, date, keys);
-      if (items) {
-        items.check = false;
-        console.log("edit : ", items);
-      }
+    enterType(item) {
+      setTimeout(() => {
+        this.showHover = item.type
+      }, 0)
     },
-    checkDay(item, date, keys, key) {
-      if (this.selectBox.state) {
-        this.selectBox.state = false;
-        this.selectBox.end = date;
-        date.select = true;
-        if (this.selectBox.item !== item) {
-          console.log("不在同一个行");
-        }
+    leaveType(item) {
+      this.showHover = ''
+    },
+    enterDay(el, item) {
+      setTimeout(() => {
+        this.showHoverDay = 'hover-' + el.type
+        this.showHoverItem = item
+      }, 0)
+    },
+    leaveDay() {
+      this.showHoverDay = ''
+      this.showHoverItem = null
+    },
+    addWork(work) {
+      if (work) {
+        this.work = work
+        this.modalTitle = '新增日程'
+        this.modal = AddItemVue
       } else {
-        this.selectBox.state = true;
-        this.selectBox.start = date;
-        this.selectBox.item = item;
-        date.select = true;
+        this.modalTitle = '新增项目'
+        this.modal = AddWorkVue
       }
-      return false;
-      this.list.forEach((ele) => {
-        ele.items.forEach((el) => {
-          el.check = false;
-        });
-      });
-      let items = this.getItems(item, date, keys);
-      if (items) {
-        items.check = true;
-        let index = this.list[key].items.findIndex((el) => el === items);
-        //获得左侧时间间隔
-        let time = new Date(item.time);
-        let stime = this.stime;
-        let temp = time.getTime() - stime.getTime();
-        let day = Math.ceil(temp / 24 / 3600 / 1000);
-        for (let i = 0; i < index; i++) {
-          day += this.list[key].items[i].day;
-        }
-        this.checkBox.item = item;
-        this.checkBox.index = index;
-        this.checkBox.left = day * 80;
-        this.checkBox.width = items.day * 80;
-        this.checkBox.top = 54 * key;
-        this.checkBox.show = true;
-      }
+      this.visible = true
     },
-    enterDay(item, date, keys, key) {
-      let items = this.getItems(item, date, keys);
-      if (items) {
-        items.hover = true;
-      }
-    },
-    leaveDay(item, date, keys, key) {
-      let items = this.getItems(item, date, keys);
-      if (items) {
-        items.hover = false;
-      }
-    },
-    checkType(item) {},
-    enterType(item) {},
-    leaveType(item) {},
-    drawDown(event, type) {
-      this.drawBox.type = type;
-      this.drawBox.show = true;
-      this.drawBox.x = event.pageX;
-      this.drawBox.y = event.pageY;
-      this.drawBox.left = this.checkBox.left;
-      this.drawBox.width = this.checkBox.width;
-    },
-    drawMove(event) {
-      let x = event.pageX;
-      let dx = x - this.drawBox.x;
-      if (this.drawBox.type === "left") {
-        this.checkBox.left = this.drawBox.left + dx;
-        this.checkBox.width = this.drawBox.width - dx;
+    editWork(work, type = 1, item) {
+      if (type === 1) {
+        this.modalTitle = '编辑日程'
+        this.modal = EditItemVue
       } else {
-        this.checkBox.width = this.drawBox.width + dx;
+        this.modalTitle = '编辑项目'
+        this.modal = EditWorkVue
       }
+      this.work = work
+      this.item = item
+      this.visible = true
     },
-    drawUp(event) {
-      let x = event.pageX;
-      let dx = x - this.drawBox.x;
-      dx = Math.round(dx / 80) * 80;
-      if (this.drawBox.type === "left") {
-        this.checkBox.left = this.drawBox.left + dx;
-        this.checkBox.width = this.drawBox.width - dx;
-      } else {
-        this.checkBox.width = this.drawBox.width + dx;
-      }
-      this.resetList(dx, this.drawBox.type);
-      this.drawBox.show = false;
-      this.drawBox.type = "";
-      this.drawBox.x = 0;
-      this.drawBox.y = 0;
-      this.drawBox.left = 0;
-      this.drawBox.width = 0;
-    },
+    handleCancel(){
+      this.visible = false
+      this.modal = null
+    }
   },
 };
 </script>
@@ -645,22 +565,22 @@ export default {
         flex: 1;
       }
     }
-    .prd .bg-color{
+    .prd .bg-color {
       background-color: #09c3d0;
     }
-    .meeting .bg-color{
+    .meeting .bg-color {
       background-color: #0987f7;
     }
-    .ui .bg-color{
+    .ui .bg-color {
       background-color: #8ec720;
     }
-    .dev .bg-color{
+    .dev .bg-color {
       background-color: #dcba12;
     }
-    .test .bg-color{
+    .test .bg-color {
       background-color: #f56d6d;
     }
-    .product .bg-color{
+    .product .bg-color {
       background-color: #1fa740;
     }
     .bg-color {
@@ -669,7 +589,18 @@ export default {
       top: 0;
       right: 0;
       bottom: 0;
-      &:hover{
+      &.hover,
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .hover-prd .prd,
+    .hover-meeting .meeting,
+    .hover-ui .ui,
+    .hover-dev .dev,
+    .hover-test .test,
+    .hover-product .product{
+      .bg-color{
         opacity: 1;
       }
     }
@@ -684,14 +615,6 @@ export default {
         }
         width: 80px;
         height: 54px;
-        &.select {
-          .flex-item-type-box {
-            background: rgba($color: #000000, $alpha: 0.2);
-          }
-          .bg-color {
-            background: rgba($color: #000000, $alpha: 0);
-          }
-        }
       }
       .flex-item-days-box {
         z-index: 1;
@@ -751,9 +674,6 @@ export default {
         }
       }
     }
-    // .richeng-days {
-    //   pointer-events: none;
-    // }
   }
   .flex-td,
   .flex-th {
@@ -766,19 +686,25 @@ export default {
     width: 160px;
   }
   .flex-item-2 {
-    width: 100px;
-  }
-  .flex-item-3 {
     width: 80px;
   }
-}
-.draw-mask {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 5;
-  cursor: w-resize;
+  .flex-item-3 {
+    width: 100px;
+  }
+  .flex-item-edit,
+  .flex-item-add {
+    color: dodgerblue;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    top: 0;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+  }
+  .flex-item-edit {
+    right: 20px;
+  }
 }
 </style>
