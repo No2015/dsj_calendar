@@ -6,7 +6,7 @@
           <div class="flex-th flex-item-1 pos-rel">
             <span>名称</span>
             <span class="flex-item-add pos-abs" @click="addWork()">
-              <a-icon type="plus" />
+              <a-icon title="新增项目" type="plus" />
             </span>
           </div>
           <div class="flex-th flex-item-2">创建人</div>
@@ -18,10 +18,10 @@
           <div class="flex-td flex-item-1 text-overflow pos-rel">
             <span>{{ item.name }}</span>
             <span class="flex-item-edit pos-abs" @click="editWork(item, 2)">
-              <a-icon type="edit" />
+              <a-icon title="编辑项目" type="edit" />
             </span>
             <span class="flex-item-add pos-abs" @click="addWork(item)">
-              <a-icon type="plus" />
+              <a-icon title="新增日程" type="plus" />
             </span>
           </div>
           <div class="flex-td flex-item-2 text-overflow">{{ item.owner }}</div>
@@ -178,7 +178,28 @@ export default {
               time: "2020-06-21 00:00:00",
               etime: "2020-06-22 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "何志"
+                }
+              ],
             },
             {
               name: "会议协同",
@@ -188,7 +209,28 @@ export default {
               time: "2020-06-22 00:00:00",
               etime: "2020-06-22 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "何志"
+                }
+              ],
             },
             {
               name: "UI阶段",
@@ -198,7 +240,28 @@ export default {
               time: "2020-06-23 00:00:00",
               etime: "2020-06-24 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "王婉儿"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "王婉儿"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "王婉儿"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "王婉儿"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "王婉儿"
+                }
+              ],
             },
             {
               name: "开发阶段",
@@ -208,7 +271,28 @@ export default {
               time: "2020-06-25 00:00:00",
               etime: "2020-06-26 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "潘涛"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "潘涛"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "潘涛"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "潘涛"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "潘涛"
+                }
+              ],
             },
             {
               name: "测试阶段",
@@ -218,7 +302,28 @@ export default {
               time: "2020-06-27 00:00:00",
               etime: "2020-06-28 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "文静"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "文静"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "文静"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "文静"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "文静"
+                }
+              ],
             },
             {
               name: "试运行阶段",
@@ -228,7 +333,28 @@ export default {
               time: "2020-06-28 00:00:00",
               etime: "2020-06-28 00:00:00",
               content: "这是详情介绍",
-              edit: [],
+              edit: [
+                {
+                  time: '2020-06-23 13:15:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:18:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:19:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:25:32',
+                  owner: "何志"
+                },
+                {
+                  time: '2020-06-23 13:35:32',
+                  owner: "何志"
+                }
+              ],
             },
           ],
         },

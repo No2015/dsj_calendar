@@ -37,6 +37,14 @@
         ]"
       />
     </a-form-item>
+    <a-form-item label="修改记录">
+      <div class="edit-list">
+        <div class="flex" v-for="(ele, key) in item.edit" :key="key">
+          <span>{{ ele.time }}</span>
+          <span>{{ ele.owner }}</span>
+        </div>
+      </div>
+    </a-form-item>
     <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
       <a-button type="primary" html-type="submit">确定</a-button>
     </a-form-item>
@@ -76,7 +84,6 @@ export default {
     };
   },
   created() {
-    console.log(this.item)
     this.init();
   },
   methods: {
@@ -132,5 +139,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.edit-list{
+  line-height: 28px;
+  padding: 0 8px;
+  max-height: 112px;
+  overflow: auto;
+  background: #f6f9fa;
+}
 </style>
