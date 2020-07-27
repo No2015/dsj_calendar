@@ -48,7 +48,7 @@
             </div>
           </div>
         </div>
-        <div class="richeng-flex-2">
+        <div class="richeng-flex-2" ref="box">
           <div class="pos-rel" :style="itemStyle">
             <div class="flex" v-for="(item, key) in list" :key="key">
               <div class="flex-td flex-item-4 pos-rel" :class="getHoverDay(showHoverDay, item)">
@@ -73,7 +73,11 @@
                         @mouseenter="enterDay(el, item)"
                         @mouseleave="leaveDay"
                       >
-                        <div :class="{hover: showHover === el.item.type}" class="pos-abs bg-color" @click="editWork(item, 1, el.item)"></div>
+                        <div
+                          :class="{hover: showHover === el.item.type}"
+                          class="pos-abs bg-color"
+                          @click="editWork(item, 1, el.item)"
+                        ></div>
                       </div>
                     </div>
                   </div>
@@ -84,23 +88,17 @@
         </div>
       </div>
     </div>
-    <a-modal
-      :title="modalTitle"
-      :visible="visible"
-      @cancel="handleCancel"
-      :footer="null"
-    >
+    <a-modal :title="modalTitle" :visible="visible" @cancel="handleCancel" :footer="null">
       <component v-bind:is="modal" :parent="parent" :work="work" :item="item"></component>
     </a-modal>
-    
   </div>
 </template>
 
 <script>
-import AddWorkVue from '@/components/calendar/AddWork.vue';
-import EditWorkVue from '@/components/calendar/EditWork.vue';
-import AddItemVue from '@/components/calendar/AddItem.vue';
-import EditItemVue from '@/components/calendar/EditItem.vue';
+import AddWorkVue from "@/components/calendar/AddWork.vue";
+import EditWorkVue from "@/components/calendar/EditWork.vue";
+import AddItemVue from "@/components/calendar/AddItem.vue";
+import EditItemVue from "@/components/calendar/EditItem.vue";
 
 export default {
   name: "Home",
@@ -109,20 +107,22 @@ export default {
     return {
       visible: false,
       modal: null,
-      modalTitle: '',
+      modalTitle: "",
       work: null,
       item: null,
       parent: null,
       list: [],
       days: [],
       listHead: [],
-      showHover: '',
+      showHover: "",
       showHoverItem: null,
-      showHoverDay: ''
+      showHoverDay: "",
+      stime: null,
     };
   },
   created() {
-    this.parent = this
+    this.parent = this;
+    window.vl = this;
     this.initList();
   },
   computed: {
@@ -166,7 +166,7 @@ export default {
           // id: 1,
           time: "2020-06-21 00:00:00",
           createtime: "2020-06-21 00:00:00",
-          content: '这是项目详情介绍',
+          content: "这是项目详情介绍",
           owner: "何志",
           status: 1,
           items: [
@@ -177,7 +177,7 @@ export default {
               owner: "何志",
               time: "2020-06-21 00:00:00",
               etime: "2020-06-22 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -187,7 +187,7 @@ export default {
               owner: "何志",
               time: "2020-06-22 00:00:00",
               etime: "2020-06-22 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -197,7 +197,7 @@ export default {
               owner: "王婉儿",
               time: "2020-06-23 00:00:00",
               etime: "2020-06-24 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -207,7 +207,7 @@ export default {
               owner: "潘涛",
               time: "2020-06-25 00:00:00",
               etime: "2020-06-26 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -217,7 +217,7 @@ export default {
               owner: "文静",
               time: "2020-06-27 00:00:00",
               etime: "2020-06-28 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -227,7 +227,7 @@ export default {
               owner: "何志",
               time: "2020-06-28 00:00:00",
               etime: "2020-06-28 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
           ],
@@ -236,7 +236,7 @@ export default {
           name: "经开项目",
           time: "2020-06-22 00:00:00",
           createtime: "2020-06-22 00:00:00",
-          content: '这是项目详情介绍',
+          content: "这是项目详情介绍",
           owner: "余林徽",
           status: 1,
           items: [
@@ -247,7 +247,7 @@ export default {
               owner: "何志",
               time: "2020-06-22 00:00:00",
               etime: "2020-06-23 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -257,7 +257,7 @@ export default {
               owner: "何志",
               time: "2020-06-23 00:00:00",
               etime: "2020-06-23 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -267,7 +267,7 @@ export default {
               owner: "王婉儿",
               time: "2020-06-24 00:00:00",
               etime: "2020-06-25 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -277,7 +277,7 @@ export default {
               owner: "潘涛",
               time: "2020-06-26 00:00:00",
               etime: "2020-06-27 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -287,7 +287,7 @@ export default {
               owner: "文静",
               time: "2020-06-28 00:00:00",
               etime: "2020-06-29 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
             {
@@ -297,7 +297,7 @@ export default {
               owner: "何志",
               time: "2020-06-29 00:00:00",
               etime: "2020-06-29 00:00:00",
-              content: '这是详情介绍',
+              content: "这是详情介绍",
               edit: [],
             },
           ],
@@ -329,6 +329,7 @@ export default {
       // 前后各加十天
       // stime = new Date(stime.getTime() - 10 * 24 * 3600 * 1000);
       etime = new Date(etime.getTime() + 10 * 24 * 3600 * 1000);
+      this.stime = stime;
       let t1 = stime.getTime();
       let t0 = ntime.getTime();
       let t2 = etime.getTime();
@@ -366,12 +367,15 @@ export default {
               type: el.type,
               index: i,
               len: len,
-              item: el
+              item: el,
             });
           }
         });
       });
       this.days = days;
+      setTimeout(() => {
+        this.scrollLeft()
+      }, 0);
     },
     formatDate(date) {
       let str =
@@ -433,57 +437,73 @@ export default {
       let arr = ["日", "一", "二", "三", "四", "五", "六"];
       return txt + arr[weekday];
     },
-    getHoverDay(showHoverDay, item){
-      if(item === this.showHoverItem){
-        return showHoverDay
+    getHoverDay(showHoverDay, item) {
+      if (item === this.showHoverItem) {
+        return showHoverDay;
       }
-      return ''
+      return "";
     },
     enterType(item) {
       setTimeout(() => {
-        this.showHover = item.type
-      }, 0)
+        this.showHover = item.type;
+      }, 0);
     },
     leaveType(item) {
-      this.showHover = ''
+      this.showHover = "";
     },
     enterDay(el, item) {
       setTimeout(() => {
-        this.showHoverDay = 'hover-' + el.type
-        this.showHoverItem = item
-      }, 0)
+        this.showHoverDay = "hover-" + el.type;
+        this.showHoverItem = item;
+      }, 0);
     },
     leaveDay() {
-      this.showHoverDay = ''
-      this.showHoverItem = null
+      this.showHoverDay = "";
+      this.showHoverItem = null;
     },
     addWork(work) {
       if (work) {
-        this.work = work
-        this.modalTitle = '新增日程'
-        this.modal = AddItemVue
+        this.work = work;
+        this.modalTitle = "新增日程";
+        this.modal = AddItemVue;
       } else {
-        this.modalTitle = '新增项目'
-        this.modal = AddWorkVue
+        this.modalTitle = "新增项目";
+        this.modal = AddWorkVue;
       }
-      this.visible = true
+      this.visible = true;
     },
     editWork(work, type = 1, item) {
       if (type === 1) {
-        this.modalTitle = '编辑日程'
-        this.modal = EditItemVue
+        this.modalTitle = "编辑日程";
+        this.modal = EditItemVue;
       } else {
-        this.modalTitle = '编辑项目'
-        this.modal = EditWorkVue
+        this.modalTitle = "编辑项目";
+        this.modal = EditWorkVue;
       }
-      this.work = work
-      this.item = item
-      this.visible = true
+      this.work = work;
+      this.item = item;
+      this.visible = true;
     },
-    handleCancel(){
-      this.visible = false
-      this.modal = null
-    }
+    scrollLeft(time) {
+      if (!time) {
+        time = new Date();
+      } else {
+        if (typeof time === "string") {
+          if (time.length === 19) {
+            time = new Date(time);
+          } else if (time.length === 10) {
+            time = new Date(time + " 00:00:00");
+          }
+        }
+      }
+      let temp = 24 * 3600 * 1000;
+      let day = Math.round((time.getTime() - this.stime.getTime()) / temp)
+      this.$refs.box.scrollLeft = 80 * day
+    },
+    handleCancel() {
+      this.visible = false;
+      this.modal = null;
+    },
   },
 };
 </script>
@@ -546,7 +566,6 @@ export default {
       border-left: 1px solid #ddd;
       opacity: 0.8;
       transition-duration: 300ms;
-      cursor: pointer;
       &:hover {
         opacity: 1;
       }
@@ -599,8 +618,8 @@ export default {
     .hover-ui .ui,
     .hover-dev .dev,
     .hover-test .test,
-    .hover-product .product{
-      .bg-color{
+    .hover-product .product {
+      .bg-color {
         opacity: 1;
       }
     }
