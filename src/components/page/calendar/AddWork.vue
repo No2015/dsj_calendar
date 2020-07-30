@@ -40,9 +40,16 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log(values)
+          this.postData(values)
           this.parent.handleCancel()
         }
+      });
+    },
+    postData(values){
+      const url2 = 'json/post.json'
+      this.axios.get(url2,values).then((res) => {
+        this.parent.getData()
+        console.log(res);
       });
     }
   },

@@ -3,29 +3,30 @@
     <a-form-item label="项目名称">
       <a-input v-model="work.name" disabled="disabled" />
     </a-form-item>
-    <a-form-item label="日程类型">
+    <a-form-item label="计划类型">
       <a-select
         v-decorator="[
           'type',
-          { rules: [{ required: true, message: '请选择日程类型!' }] },
+          { rules: [{ required: true, message: '请选择计划类型!' }] },
         ]"
-        placeholder="日程类型"
+        placeholder="计划类型"
         @change="handleSelectChange"
       >
         <a-select-option
-          v-for="(item, key) in listHead"
+          v-for="(item, key) in processList"
           :key="key"
-          :value="item.type"
+          :value="item.id"
         >{{ item.name }}</a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item label="日程周期">
+    <a-form-item label="计划周期">
       <a-range-picker
         v-decorator="[
           'time',
-          { rules: [{ required: true, message: '请选择日程周期!' }] },
+          { rules: [{ required: true, message: '请选择计划周期!' }] },
         ]"
         @change="onChange"
+        :locale="locale"
       />
     </a-form-item>
     <a-form-item label="详情">
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN'
 export default {
   props: {
     parent: {
@@ -57,10 +59,16 @@ export default {
         return {};
       },
     },
+    processList: {
+      type: Array,
+      defaule(){
+        return []
+      }
+    }
   },
   data() {
     return {
-      listHead: [],
+      locale,
       dateString: [],
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
@@ -71,32 +79,7 @@ export default {
   },
   methods: {
     init() {
-      this.listHead = [
-        {
-          type: "prd",
-          name: "PRD",
-        },
-        {
-          type: "meeting",
-          name: "会议",
-        },
-        {
-          type: "ui",
-          name: "UI",
-        },
-        {
-          type: "dev",
-          name: "开发",
-        },
-        {
-          type: "test",
-          name: "测试",
-        },
-        {
-          type: "product",
-          name: "交付",
-        },
-      ];
+      console.log(this.processList)
     },
     onChange(date, dateString) {
       console.log(date, dateString);
@@ -106,8 +89,8 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log(values);
-          console.log(this.dateString);
+          this.postData(values);
+          // console.log(this.dateString);
           this.parent.handleCancel();
         }
       });
@@ -117,6 +100,20 @@ export default {
       //   note: `Hi, ${value === "male" ? "man" : "lady"}!`,
       // });
     },
+    postData(values){
+      let data = {
+        project_id: this.work.id,
+        process_id: values.type,
+        start_time_day: this.dateString[0],
+        end_time_day: this.dateString[1],
+        content: values.content
+      }
+      const url2 = 'json/post.json'
+      this.axios.get(url2,data).then((res) => {
+        this.parent.getData()
+        console.log(res);
+      });
+    }
   },
 };
 </script>

@@ -1,0 +1,301 @@
+{
+    "ok": true,
+    "servertime": 1596104728.3278372,
+    "list": [
+        {
+            "id": 10,
+            "name": "微信",
+            "create_by": 39,
+            "create_at": "2020-07-28 19:21:42",
+            "status": 0,
+            "update_at": "2020-07-28 19:21:42",
+            "process_list": [
+                {
+                    "id": 8,
+                    "name": "\u9879\u76ee\u8c03\u7814",
+                    "step": 1,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 23,
+                        "project_id": 10,
+                        "process_id": 8,
+                        "start_time_day": "2020-07-06",
+                        "end_time_day": "2020-07-06",
+                        "create_at": "2020-07-28 19:22:17",
+                        "create_by": 39,
+                        "update_at": "2020-07-29 14:28:31"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "\u9700\u6c42\u7f16\u5199",
+                    "step": 2,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 24,
+                        "project_id": 10,
+                        "process_id": 5,
+                        "start_time_day": "2020-07-07",
+                        "end_time_day": "2020-07-07",
+                        "create_at": "2020-07-28 19:22:33",
+                        "create_by": 39,
+                        "update_at": "2020-07-29 14:28:20"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "UI\u8bbe\u8ba1",
+                    "step": 3,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 25,
+                        "project_id": 10,
+                        "process_id": 6,
+                        "start_time_day": "2020-07-08",
+                        "end_time_day": "2020-07-08",
+                        "create_at": "2020-07-28 19:22:45",
+                        "create_by": 39,
+                        "update_at": "2020-07-29 14:28:15"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "\u4ee3\u7801\u7f16\u5199",
+                    "step": 4,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 26,
+                        "project_id": 10,
+                        "process_id": 7,
+                        "start_time_day": "2020-07-09",
+                        "end_time_day": "2020-07-22",
+                        "create_at": "2020-07-28 19:24:22",
+                        "create_by": 39,
+                        "update_at": "2020-07-29 14:28:47"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "\u9879\u76ee\u63d0\u6d4b",
+                    "step": 5,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 27,
+                        "project_id": 10,
+                        "process_id": 9,
+                        "start_time_day": "2020-07-23",
+                        "end_time_day": "2020-07-28",
+                        "create_at": "2020-07-28 19:24:37",
+                        "create_by": 39,
+                        "update_at": "2020-07-28 20:37:14"
+                    }
+                }
+            ],
+            "event_list": []
+        },
+        {
+            "id": 13,
+            "name": "支付宝",
+            "create_by": 9,
+            "create_at": "2020-07-29 14:25:47",
+            "status": 0,
+            "update_at": "2020-07-29 14:25:47",
+            "process_list": [
+                {
+                    "id": 8,
+                    "name": "\u9879\u76ee\u8c03\u7814",
+                    "step": 1,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 5,
+                    "name": "\u9700\u6c42\u7f16\u5199",
+                    "step": 2,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 6,
+                    "name": "UI\u8bbe\u8ba1",
+                    "step": 3,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 31,
+                        "project_id": 13,
+                        "process_id": 6,
+                        "start_time_day": "2020-07-29",
+                        "end_time_day": "2020-07-30",
+                        "create_at": "2020-07-29 14:26:06",
+                        "create_by": 9,
+                        "update_at": "2020-07-29 14:26:06"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "\u4ee3\u7801\u7f16\u5199",
+                    "step": 4,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 32,
+                        "project_id": 13,
+                        "process_id": 7,
+                        "start_time_day": "2020-07-30",
+                        "end_time_day": "2020-08-05",
+                        "create_at": "2020-07-29 15:31:56",
+                        "create_by": 9,
+                        "update_at": "2020-07-29 15:31:56"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "\u9879\u76ee\u63d0\u6d4b",
+                    "step": 5,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 33,
+                        "project_id": 13,
+                        "process_id": 9,
+                        "start_time_day": "2020-08-06",
+                        "end_time_day": "2020-08-06",
+                        "create_at": "2020-07-29 15:32:07",
+                        "create_by": 9,
+                        "update_at": "2020-07-29 15:32:07"
+                    }
+                }
+            ],
+            "event_list": [
+                {
+                    "id": 11,
+                    "project_id": 13,
+                    "process_id": 0,
+                    "time_day": "2020-08-07",
+                    "name": "\u5ba2\u6237\u6f14\u793a",
+                    "create_at": "2020-07-29 16:23:17",
+                    "create_by": 9,
+                    "content": "\u5ba2\u6237\u6f14\u793a",
+                    "update_at": "2020-07-29 16:23:17"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "抖音",
+            "create_by": 39,
+            "create_at": "2020-07-28 19:21:51",
+            "status": 0,
+            "update_at": "2020-07-28 19:21:51",
+            "process_list": [
+                {
+                    "id": 8,
+                    "name": "\u9879\u76ee\u8c03\u7814",
+                    "step": 1,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 5,
+                    "name": "\u9700\u6c42\u7f16\u5199",
+                    "step": 2,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 6,
+                    "name": "UI\u8bbe\u8ba1",
+                    "step": 3,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 7,
+                    "name": "\u4ee3\u7801\u7f16\u5199",
+                    "step": 4,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 29,
+                        "project_id": 11,
+                        "process_id": 7,
+                        "start_time_day": "2020-07-09",
+                        "end_time_day": "2020-07-30",
+                        "create_at": "2020-07-28 20:38:23",
+                        "create_by": 9,
+                        "update_at": "2020-07-30 17:59:04"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "\u9879\u76ee\u63d0\u6d4b",
+                    "step": 5,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 28,
+                        "project_id": 11,
+                        "process_id": 9,
+                        "start_time_day": "2020-07-31",
+                        "end_time_day": "2020-08-06",
+                        "create_at": "2020-07-28 20:36:45",
+                        "create_by": 1,
+                        "update_at": "2020-07-30 17:59:13"
+                    }
+                }
+            ],
+            "event_list": []
+        },
+        {
+            "id": 15,
+            "name": "知乎",
+            "create_by": 9,
+            "create_at": "2020-07-29 18:54:40",
+            "status": 0,
+            "update_at": "2020-07-29 18:54:40",
+            "process_list": [
+                {
+                    "id": 8,
+                    "name": "\u9879\u76ee\u8c03\u7814",
+                    "step": 1,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 5,
+                    "name": "\u9700\u6c42\u7f16\u5199",
+                    "step": 2,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 6,
+                    "name": "UI\u8bbe\u8ba1",
+                    "step": 3,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 7,
+                    "name": "\u4ee3\u7801\u7f16\u5199",
+                    "step": 4,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {}
+                },
+                {
+                    "id": 9,
+                    "name": "\u9879\u76ee\u63d0\u6d4b",
+                    "step": 5,
+                    "update_at": "2020-07-28 17:36:52",
+                    "interval_list": {
+                        "id": 36,
+                        "project_id": 15,
+                        "process_id": 9,
+                        "start_time_day": "2020-07-30",
+                        "end_time_day": "2020-07-30",
+                        "create_at": "2020-07-29 22:46:21",
+                        "create_by": 9,
+                        "update_at": "2020-07-29 22:46:21"
+                    }
+                }
+            ],
+            "event_list": []
+        }
+    ]
+}
